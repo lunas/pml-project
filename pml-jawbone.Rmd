@@ -5,24 +5,11 @@ date: "20. September 2014"
 output: html_document
 ---
 
-<!--
-## Todo
-
-  * link to a Github repo with your R markdown and compiled HTML file describing your analysis
-  * Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5.
-  * submit a repo with a gh-pages branch so the HTML page can be viewed online
-
-## Criteria
-
-* Does the submission build a machine learning algorithm to predict activity quality from activity monitors?
-* Do the authors describe what they expect the out of sample error to be and estimate the error appropriately with cross-validation?
--->
-
 # Predicting body movements based on accelerometer data
 
 This project tries to predict 5 classes of behavior based on accelerometers attached to the belt, forearm, arm, and dumbell of 6 participants. Specifically, the participants were asked to perform barbell lifts in 5 different ways.
 
-The dataset consists of 160 variables provided by the accelerometers. It has 19622 records; for each record, the correct type of behavior (from "A" to "D") is given, too.
+The dataset consists of 160 variables provided by the accelerometers. It has 19622 records; for each record, the correct type of behavior (from "A" to "E") is given, too.
 
 ## Design
 
@@ -37,6 +24,7 @@ The results were evaluated based on Accuracy.
 Load the training data set and the test data set.
 ```{r}
 library(caret)
+library(randomForest)
 setwd('~/Documents/ml/datascience/courses/08_PracticalMachineLearning/project/')
 train.total <- read.csv('pml-training.csv')
 test  <- read.csv('pml-testing.csv')
@@ -77,7 +65,6 @@ cross.val <- cross.val[, keep.cols]
 
 Run randomForest:
 ```{r cache=TRUE}
-library(randomForest)
 
 # Load model if it exists already
 model.file <- "rfmodel.save"

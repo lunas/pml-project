@@ -61,35 +61,14 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<!--
-## Todo
-
-* Goal:  predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with.
-* Delivery 1: report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did.
-  * link to a Github repo with your R markdown and compiled HTML file describing your analysis
-  * Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5.
-  * submit a repo with a gh-pages branch so the HTML page can be viewed online
-* Delivery 2: prediction algorithm
-  * apply your machine learning algorithm to the 20 test cases available in the test data above. Please submit your predictions in appropriate format to the programming assignment for automated grading. See the programming assignment for additional details. 
-
-
-## Criteria
-
-* Does the submission build a machine learning algorithm to predict activity quality from activity monitors?
-* Do the authors describe what they expect the out of sample error to be and estimate the error appropriately with cross-validation?
--->
-
 <div id="predicting-body-movements-based-on-accelerometer-data" class="section level1">
 <h1>Predicting body movements based on accelerometer data</h1>
-<div id="intro" class="section level2">
-<h2>Intro</h2>
 <p>This project tries to predict 5 classes of behavior based on accelerometers attached to the belt, forearm, arm, and dumbell of 6 participants. Specifically, the participants were asked to perform barbell lifts in 5 different ways.</p>
-<p>The dataset consists of 160 variables provided by the accelerometers and 19622 records. For each record, the correct type of behavior (from “A” to “D”) is given, too.</p>
-</div>
+<p>The dataset consists of 160 variables provided by the accelerometers. It has 19622 records; for each record, the correct type of behavior (from “A” to “E”) is given, too.</p>
 <div id="design" class="section level2">
 <h2>Design</h2>
 <p>The random forest algorithm was applied since it is well known to deliver accurate results, and its long processing time is not important for this project.</p>
-<p>A danger of random forest is its tendency to overfit. To check that the model is not overfitted, 70% of the training data were used for the actual training. The other 30% were used as cross validation data set to estimate the out-of-sample error.</p>
+<p>A danger of random forest is its tendency to overfit. To check that the model is not overfitted, only 70% of the training data were used for the actual training. The other 30% were used as cross validation data set to estimate the out-of-sample error.</p>
 <p>The results were evaluated based on Accuracy.</p>
 </div>
 <div id="data-preparation" class="section level2">
@@ -98,6 +77,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <pre class="r"><code>library(caret)</code></pre>
 <pre><code>## Loading required package: lattice
 ## Loading required package: ggplot2</code></pre>
+<pre class="r"><code>library(randomForest)</code></pre>
+<pre><code>## randomForest 4.6-10
+## Type rfNews() to see new features/changes/bug fixes.</code></pre>
 <pre class="r"><code>setwd('~/Documents/ml/datascience/courses/08_PracticalMachineLearning/project/')
 train.total &lt;- read.csv('pml-training.csv')
 test  &lt;- read.csv('pml-testing.csv')</code></pre>
@@ -128,9 +110,7 @@ cross.val &lt;- cross.val[, keep.cols]</code></pre>
 <div id="run-random-forest" class="section level2">
 <h2>Run random forest</h2>
 <p>Run randomForest:</p>
-<pre class="r"><code>library(randomForest)
-
-# Load model if it exists already
+<pre class="r"><code># Load model if it exists already
 model.file &lt;- &quot;rfmodel.save&quot;
 if ( !file.exists(model.file) ) {  
   fit &lt;- randomForest( x=train[, 1:dim(train)[2]-1], y=train$classe, importance=T )
@@ -196,7 +176,7 @@ confusionMatrix( predict.cross.val, cross.val$classe)</code></pre>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>The model that was fitted using the random forest algorithm on 70% of the training dataset is able to predict the correct classes in the cross validation dataset with an accuracy of 0.999 (with 95% between 9.9952 and 0.9982).</p>
+<p>The model that was fitted using the random forest algorithm on 70% of the training dataset is able to predict the correct classes in the cross validation dataset with an accuracy of 0.997 (with 95% between 9.996 and 0.998).</p>
 <p>So I dare to hope that it will perform good enough on the test data set.</p>
 </div>
 </div>
