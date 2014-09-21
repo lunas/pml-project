@@ -77,7 +77,7 @@ if ( !file.exists(model.file) ) {
 fit
 ```
 
-The error rate on the training set is 0.23%. 
+The error rate on the training set is 0.26%. 
 
 ## Estimate error on cross validation dataset
 
